@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 
+
 export class ApiRouter {
     private router: Router = Router();
 
@@ -12,6 +13,6 @@ export class ApiRouter {
     }
 
     private setRoutes(): void {
-        this.router.use('/auth', (req: Request, res: Response) => res.send('this is'));
+        this.router.use('/auth/sign-up/', (req: Request, res: Response) => res.send('this is signup'));
     }
 }

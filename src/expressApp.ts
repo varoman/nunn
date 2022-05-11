@@ -3,6 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import { ApiRouter } from './router.js';
 
+
 export class ExpressApp  {
     private app: Application = express();
     private apiRouter = new ApiRouter().getRouter();

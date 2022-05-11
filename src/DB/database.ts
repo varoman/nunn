@@ -21,6 +21,10 @@ import { DbConfig } from './db.config.js';
 export class Database {
     private config: DbConfig = new DbConfig();
 
+    public getInstance(): Sequelize {
+        return this.sequelize;
+    }
+
     private sequelize: Sequelize = new Sequelize(
         this.config.database,
         this.config.username,
