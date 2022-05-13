@@ -3,6 +3,6 @@
     "ts": "tsc"
   },
   "watch": ["src"],
-  "ext": "js, ts",
+  "ext": "ts",
   "exec": "tsc &&  node -r source-map-support/register dist/app.js"
 }
