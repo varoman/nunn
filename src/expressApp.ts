@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import { ApiRouter } from './router.js';
 
 
-export class ExpressApp  {
+class ExpressApp  {
     private app: Application = express();
     private apiRouter = new ApiRouter().getRouter();
 
@@ -29,3 +29,5 @@ export class ExpressApp  {
         this.app.use('/api', this.apiRouter);
     }
 }
+
+export default new ExpressApp();

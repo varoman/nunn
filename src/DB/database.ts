@@ -37,13 +37,7 @@ export class Database {
     public init(): void {
         this.sequelize
             .authenticate()
-            .then(() => {
-                console.log('Connection has been established successfully.');
-            })
-            .catch((err: string) => {
-                console.error('Unable to connect to the database:', err);
-            });
+            .then(() => console.log('Connection has been established successfully.'))
+            .catch((err: string) => console.error('Unable to connect to the database:', err));
     }
 }
-
-
