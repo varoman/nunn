@@ -30,7 +30,8 @@ export class Database {
         this.config.username,
         this.config.password, {
             host: this.config.host,
-            dialect: this.config.dialect
+            dialect: this.config.dialect,
+            port: this.config.port,
         },
     );
 
