@@ -1,5 +1,8 @@
 {
   "execMap": {
     "ts": "tsc"
-  }
+  },
+  "watch": ["src"],
+  "ext": "js, ts",
+  "exec": "tsc &&  node -r source-map-support/register dist/app.js"
 }
