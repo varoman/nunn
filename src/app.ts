@@ -13,10 +13,6 @@ class App {
         this.start();
     }
 
-    public getDatabase(): Database {
-        return this.database;
-    }
-
     public start(): void {
         this.database.init();
         http.createServer(this.expressApp).listen(this.port);

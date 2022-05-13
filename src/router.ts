@@ -1,18 +1,16 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, Application } from 'express';
 
 
 export class ApiRouter {
     private router: Router = Router();
 
-    constructor() {
+    public init(app: Application) {
+        app.use('/api', this.router);
         this.setRoutes();
     }
 
-    public getRouter(): Router {
-        return this.router;
-    }
 
-    private setRoutes(): void {
+    public setRoutes(): void {
         this.router.use('/auth/sign-up/', (req: Request, res: Response) => res.send('this is signup'));
     }
 }

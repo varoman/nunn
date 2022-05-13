@@ -6,7 +6,7 @@ import { ApiRouter } from './router.js';
 
 class ExpressApp  {
     private app: Application = express();
-    private apiRouter = new ApiRouter().getRouter();
+    private apiRouter = new ApiRouter();
 
     constructor() {
         this.setConfigs();
@@ -26,7 +26,7 @@ class ExpressApp  {
                 allowedHeaders: [ 'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
             })
         );
-        this.app.use('/api', this.apiRouter);
+        this.apiRouter.init(this.app);
     }
 }
 
