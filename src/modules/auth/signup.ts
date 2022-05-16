@@ -1,6 +1,6 @@
 import { RequestHandler } from '../requestHandler.interface';
 import { Request, Response, NextFunction } from 'express';
-import {User} from '../../db/models/user.model.js';
+import { User } from '../../db/models/user.model.js';
 
 export class Signup implements RequestHandler {
 	public async handleRequest(req: Request, res: Response, next?: NextFunction) {
