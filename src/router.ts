@@ -1,4 +1,6 @@
-import { Router, Request, Response, Application } from 'express';
+import { Router, Application } from 'express';
+import {Signup} from './modules/auth/signup.js';
+import {RequestHandler} from './modules/requestHandler.interface';
 
 
 export class ApiRouter {
@@ -11,6 +13,18 @@ export class ApiRouter {
 
 
     public setRoutes(): void {
-        this.router.use('/auth/sign-up/', (req: Request, res: Response) => res.send('this is signup'));
+        for (let route of this.routes) {
+            const handler: RequestHandler = new route.handler();
+            this.router.use(route.path, handler.handleRequest);
+        }
+
     }
+
+    private routes: Array<{path: string, handler: any}> = [
+            {
+                path: '/auth/sign-up/',
+                handler: Signup
+            }
+        ]
+
 }

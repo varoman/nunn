@@ -21,6 +21,10 @@ import { DbConfig } from './db.config.js';
 export class Database {
     private config: DbConfig = new DbConfig();
 
+    constructor() {
+        this.init();
+    }
+
     public getInstance(): Sequelize {
         return this.sequelize;
     }
@@ -35,10 +39,12 @@ export class Database {
         },
     );
 
-    public init(): void {
+    private init(): void {
         this.sequelize
             .authenticate()
             .then(() => console.log('Connection has been established successfully.'))
             .catch((err: string) => console.error('Unable to connect to the database:', err));
     }
 }
+
+export default new Database();

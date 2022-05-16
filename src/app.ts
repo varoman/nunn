@@ -1,21 +1,32 @@
-import * as http from 'http';
-import { Database } from './DB/database.js';
-import expressApp from './expressApp.js';
-import { Application } from 'express';
+import express, { Application } from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import { ApiRouter } from './router.js';
 
 
 class App {
-    private port: string = process.env.PORT || '5000';
-    private database: Database = new Database();
-    private expressApp: Application = expressApp.getApp();
+    private app: Application = express();
+    private apiRouter = new ApiRouter();
 
     constructor() {
-        this.start();
+        this.setConfigs();
     }
 
-    public start(): void {
-        this.database.init();
-        http.createServer(this.expressApp).listen(this.port);
+    public getApp(): Application {
+        return this.app;
+    }
+
+    private setConfigs(): void {
+        this.app.use(bodyParser.json());
+        this.app.use(
+            cors({
+                origin: '*',
+                credentials: true,
+                methods:  [ 'GET', 'POST', ],
+                allowedHeaders: [ 'Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+            })
+        );
+        this.apiRouter.init(this.app);
     }
 }
 

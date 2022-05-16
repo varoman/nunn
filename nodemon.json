@@ -4,5 +4,5 @@
   },
   "watch": ["src"],
   "ext": "ts",
-  "exec": "tsc &&  node -r source-map-support/register dist/app.js"
+  "exec": "tsc &&  node -r source-map-support/register dist/server.js"
 }
