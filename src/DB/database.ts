@@ -1,5 +1,5 @@
-import { Sequelize } from 'sequelize';
-import { DbConfig } from './db.config.js';
+import {Sequelize} from 'sequelize';
+import {DbConfig}  from './db.config.js';
 
 
 // const { NODE_ENV } = process.env;
@@ -19,32 +19,31 @@ import { DbConfig } from './db.config.js';
 
 
 export class Database {
-    private config: DbConfig = new DbConfig();
+	private config: DbConfig = new DbConfig();
+	private sequelize: Sequelize = new Sequelize(
+		this.config.database,
+		this.config.username,
+		this.config.password, {
+			host: this.config.host,
+			dialect: this.config.dialect,
+			port: this.config.port,
+		},
+	);
 
-    constructor() {
-        this.init();
-    }
+	constructor() {
+		this.init();
+	}
 
-    public getInstance(): Sequelize {
-        return this.sequelize;
-    }
+	public getInstance(): Sequelize {
+		return this.sequelize;
+	}
 
-    private sequelize: Sequelize = new Sequelize(
-        this.config.database,
-        this.config.username,
-        this.config.password, {
-            host: this.config.host,
-            dialect: this.config.dialect,
-            port: this.config.port,
-        },
-    );
-
-    private init(): void {
-        this.sequelize
-            .authenticate()
-            .then(() => console.log('Connection has been established successfully.'))
-            .catch((err: string) => console.error('Unable to connect to the database:', err));
-    }
+	private init(): void {
+		this.sequelize
+			.authenticate()
+			.then(() => console.log('Connection has been established successfully.'))
+			.catch((err: string) => console.error('Unable to connect to the database:', err));
+	}
 }
 
 export default new Database();
