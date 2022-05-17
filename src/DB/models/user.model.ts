@@ -4,11 +4,14 @@ import {
 	InferCreationAttributes,
 	CreationOptional,
 	DataTypes,
-} from 'sequelize';
-import database from '../database.js';
-import { HookReturn } from 'sequelize/types/hooks';
-import bcryptjs from 'bcryptjs';
+}                   from 'sequelize';
+import database     from '../database.js';
+import {HookReturn} from 'sequelize/types/hooks';
+import bcryptjs     from 'bcryptjs';
 
+
+const saltRounds: number = 10;
+const passwordMinLength: number = 8;
 
 export class User extends Model <InferAttributes<User>, InferCreationAttributes<User>> {
 	declare id: CreationOptional<number>;
@@ -20,40 +23,47 @@ export class User extends Model <InferAttributes<User>, InferCreationAttributes<
 }
 
 User.init({
-	id: {
-		type: DataTypes.INTEGER,
-		autoIncrement: true,
-		primaryKey: true,
+		id: {
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		},
+		name: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		email: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			unique: true,
+			validate: {
+				isEmail: true,
+			},
+		},
+		password: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			validate: {
+				len: [passwordMinLength, 255],
+			},
+		},
+		createdAt: {
+			type: DataTypes.DATE,
+			allowNull: false
+		},
+		updatedAt: {
+			type: DataTypes.DATE,
+			allowNull: false
+		}
 	},
-	name: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	email: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	password: {
-		type: DataTypes.STRING,
-		allowNull: false
-	},
-	createdAt: {
-		type: DataTypes.DATE,
-		allowNull: false
-	},
-	updatedAt: {
-		type: DataTypes.DATE,
-		allowNull: false
-	}
-},
 	{
 		hooks: {
-			beforeCreate(user: User): HookReturn {
-				 user.password = bcryptjs.hashSync(user.password, 10);
-			}
-	},
+			beforeCreate: (user: User): HookReturn => {
+				user.password = bcryptjs.hashSync(user.password, saltRounds);
+			},
+		},
 		tableName: 'users',
 		sequelize: database.getInstance(),
-});
+	});
 
 User.sync();
