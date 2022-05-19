@@ -4,6 +4,7 @@ import {
 	InferCreationAttributes,
 	CreationOptional,
 	DataTypes,
+	NonAttribute,
 }                   from 'sequelize';
 import database     from '../database.js';
 import {HookReturn} from 'sequelize/types/hooks';
@@ -20,6 +21,15 @@ export class User extends Model <InferAttributes<User>, InferCreationAttributes<
 	declare password: string;
 	declare createdAt: CreationOptional<Date>;
 	declare updatedAt: CreationOptional<Date>;
+
+	public createUser({email, password, name}: User): NonAttribute<Promise<User>> {
+		return User.create({
+			email,
+			name,
+			password
+		});
+	}
+
 }
 
 User.init({
@@ -66,4 +76,4 @@ User.init({
 		sequelize: database.getInstance(),
 	});
 
-User.sync();
+User.sync({force: true});

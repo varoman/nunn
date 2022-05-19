@@ -1,30 +1,25 @@
 import {Router, Application} from 'express';
-import {Signup}              from './modules/auth/signup.js';
-import {RequestHandler}      from './modules/requestHandler.interface';
+import authRouter            from './modules/auth/auth.router.js';
 
 
 export class ApiRouter {
 	private router: Router = Router();
+	private routes: Array<{ path: string, handler: Router }> = [
+		{
+			path: '/auth',
+			handler: authRouter.getRouter(),
+		}
+	]
 
 	public init(app: Application) {
 		app.use('/api', this.router);
 		this.setRoutes();
 	}
 
-
 	public setRoutes(): void {
 		for (let route of this.routes) {
-			const handler: RequestHandler = new route.handler();
-			this.router.use(route.path, handler.handleRequest);
+			this.router.use(route.path, route.handler);
 		}
-
 	}
-
-	private routes: Array<{ path: string, handler: any }> = [
-		{
-			path: '/auth/sign-up/',
-			handler: Signup
-		}
-	]
 
 }
